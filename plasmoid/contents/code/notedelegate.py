@@ -38,7 +38,6 @@ class NoteDelegate(QtGui.QStyledItemDelegate):
         # Font Metrics
         self.titleFontFM = QtGui.QFontMetrics(self.titleFont)
         self.descriptionFontFM = QtGui.QFontMetrics(self.descriptionFont)
-        self.rateFontFM = QtGui.QFontMetrics(self.rateFont)
 
     def sizeHint(self, option, index):
         if index.column() == 0:
@@ -99,13 +98,11 @@ class NoteDelegate(QtGui.QStyledItemDelegate):
         # Draw Rate
         value = index.data(RateRole)
         if value.isValid():
-            rate = value.toString()
-            rateInt = value.toInt()[0]
-            rect = self.rateFontFM.boundingRect(option.rect, Qt.TextWordWrap, rate)
+            rate = value.toInt()[0]
             painter.setFont(self.rateFont)
             painter.setPen(QtGui.QColor("#edf5ff"))
             for i in range(1, 6):
-                if i <= rateInt:
+                if i <= rate:
                     painter.setBrush(QtGui.QColor(Qt.red))
                 else:
                     painter.setBrush(QtGui.QColor(Qt.gray))
