@@ -40,9 +40,12 @@ class QuickNotes(plasmascript.Applet):
         """
 
         self.setBackgroundHints(Plasma.Applet.NoBackground)
-        self.resize(300, 500)
 
         self.__createMainLayout()
+
+        width = self.viewerSize.width() + 20
+        height = self.viewerSize.height() - 20
+        self.resize(width, height)
 
     def __createMainLayout(self):
         self.mainLayout = QGraphicsLinearLayout(Qt.Vertical, self.applet)
@@ -55,6 +58,8 @@ class QuickNotes(plasmascript.Applet):
         noteview.nativeWidget().setHeaderHidden(True)
         noteview.nativeWidget().setIndentation(0)
         self.mainLayout.addItem(noteview)
+
+        self.viewerSize = noteview.size()
 
         self.applet.setLayout(self.mainLayout)
 
