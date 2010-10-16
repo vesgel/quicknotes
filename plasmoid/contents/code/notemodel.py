@@ -14,16 +14,15 @@
 from PyQt4.QtCore import *
 from colors import *
 
-(DescriptionRole, ColorRole) = range(Qt.UserRole, Qt.UserRole + 2)
+(DescriptionRole, ColorRole, RateRole) = range(Qt.UserRole, Qt.UserRole + 3)
 
 
 class NoteItem:
-    def __init__(self, title, description=None, color=None, rate=None, status=None):
+    def __init__(self, title, description=None, color=None, rate=None):
         self.title = title
         self.description = description
         self.color = color
         self.rate = rate
-        self.status = status
 
 class NoteModel(QAbstractListModel):
     def __init__(self, parent=None):
@@ -31,12 +30,16 @@ class NoteModel(QAbstractListModel):
         self.notes = []
 
         for i in range(0, 4):
-            note = NoteItem("Note %s" % i)
+            note = NoteItem("Note %s" % i, "Description")
             self.notes.append(note)
         self.notes[0].color = YELLOW
         self.notes[1].color = BLUE
         self.notes[2].color = GRAY
         self.notes[3].color = BROWN
+        self.notes[0].rate = 1
+        self.notes[1].rate = 2
+        self.notes[2].rate = 3
+        self.notes[3].rate = 4
 
     def rowCount(self, parent=QModelIndex()):
         return len(self.notes)
@@ -50,3 +53,7 @@ class NoteModel(QAbstractListModel):
 
         if role == ColorRole:
             return QVariant(self.notes[index.row()].color)
+        elif role == DescriptionRole:
+            return QVariant(self.notes[index.row()].description)
+        elif role == RateRole:
+            return QVariant(self.notes[index.row()].rate)
