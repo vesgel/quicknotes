@@ -1,0 +1,7 @@
+NOTE: This is an EXPERIMENTAL project for now and may not work properly yet!
+
+Quick Notes is a KDE4 plasmoid which makes possible to get simple notes quickly and manage them.
+
+To run and test the Quick Notes plasmoid, download the project and run the following command in project directory:
+
+python plasmoid.py -t
