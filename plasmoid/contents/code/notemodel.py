@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2010, Volkan Esgel
+# Copyright (C) 2010-2011, Volkan Esgel
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -11,8 +11,12 @@
 # Please read the COPYING file.
 #
 
+# PyQt4 Section
 from PyQt4.QtCore import *
+
+# Application Section
 from colors import *
+from datamanager import DataManager
 
 (DescriptionRole, ColorRole, RateRole) = range(Qt.UserRole, Qt.UserRole + 3)
 
@@ -25,21 +29,17 @@ class NoteItem:
         self.rate = rate
 
 class NoteModel(QAbstractListModel):
-    def __init__(self, parent=None):
+    def __init__(self, package_path, parent=None):
         super(NoteModel, self).__init__(parent)
         self.notes = []
 
-        for i in range(0, 4):
-            note = NoteItem("Note %s" % i, "Description")
-            self.notes.append(note)
-        self.notes[0].color = YELLOW
-        self.notes[1].color = BLUE
-        self.notes[2].color = GRAY
-        self.notes[3].color = BROWN
-        self.notes[0].rate = 1
-        self.notes[1].rate = 2
-        self.notes[2].rate = 3
-        self.notes[3].rate = 4
+        dm = DataManager(package_path)
+        data = dm.getData()
+
+        # load notes from data file
+        for line in data:
+            title, description, color, rate = line.split('|')
+            self.notes.append(NoteItem(title, description, COLORS[color], rate))
 
     def rowCount(self, parent=QModelIndex()):
         return len(self.notes)

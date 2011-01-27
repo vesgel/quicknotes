@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2010, Volkan Esgel
+# Copyright (C) 2010-2011, Volkan Esgel
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -22,7 +22,6 @@ from PyKDE4 import plasmascript
 # Application Section
 from notemodel import NoteModel
 from notedelegate import NoteDelegate
-
 
 class QuickNotes(plasmascript.Applet):
 
@@ -52,7 +51,7 @@ class QuickNotes(plasmascript.Applet):
 
         noteview = Plasma.TreeView(self.applet)
         noteview.setStyleSheet("QTreeView { background: Transparent }")
-        nmodel = NoteModel(noteview)
+        nmodel = NoteModel(self.package().path(), noteview)
         noteview.setModel(nmodel)
         noteview.nativeWidget().setItemDelegate(NoteDelegate(self))
         noteview.nativeWidget().setHeaderHidden(True)
